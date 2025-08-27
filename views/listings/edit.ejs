@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tripore</title>
+</head>
+<body>
+    <h3>Edit Listing</h3>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
+        <input type="text" 
+        name="listing[title]" 
+        value="<%= listing.title %>" />
+        <br>
+        <textarea 
+        name="listing[description]">
+        <%= listing.description %></textarea>
+       <br>
+        <input 
+        name="listing[image]" 
+        placeholder="Image URL" 
+        type="text" 
+        value="<%= listing.image %>"/>
+        <br>
+        <input type="number" 
+        name="listing[price]" 
+        placeholder="Price"
+        value="<%= listing.price %>"/>
+        <br>
+        <input type="text" 
+        name="listing[location]" 
+        placeholder="Location"
+        value="<%= listing.location %>" />
+        <br>
+        <input 
+        type="text" 
+        name="listing[country]" 
+        placeholder="Country"
+        value="<%= listing.country %>" />
+        <br>
+        <button>Edit Listing</button>
+    </form>
+    
+</body>
+</html>
