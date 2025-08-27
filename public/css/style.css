@@ -1,0 +1,19 @@
+/* body{
+    background-color: pink;
+} */
+
+/* Navbar */
+.navbar{
+    height: 4rem;
+    background-color: aliceblue;
+}
+
+.fa-location-arrow{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+
+}
