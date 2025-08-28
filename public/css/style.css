@@ -1,6 +1,11 @@
-/* body{
-    background-color: pink;
-} */
+body{
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
 
 /* Navbar */
 .navbar{
@@ -88,4 +93,17 @@
 .card-img-overlay:hover{
     opacity: 0.2;
     background-color:white;
+}
+
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+/* show page */
+.show-img{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    height: 20rem !important;
 }

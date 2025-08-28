@@ -48,8 +48,23 @@ app.get("/listings/:id", async (req,res) =>{
 });
 
 //create route
-app.post("/listings", async (req,res) =>{
+//create route
+app.post("/listings", async (req, res) => {
+    // Manually construct the new listing object
     const newListing = new Listing(req.body.listing);
+
+    // If no image URL is provided, use a default one
+    let url = req.body.listing.image;
+    if (!url) {
+        url = "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60";
+    }
+
+    // **This is the fix**: Set the image field to be an object
+    newListing.image = {
+        url: url,
+        filename: "listingimage"
+    };
+    
     await newListing.save();
     res.redirect("/listings");
 });
@@ -63,10 +78,23 @@ app.get("/listings/:id/edit", async (req,res) =>{
 });
 
 //update route
-app.put("/listings/:id", async (req,res) =>{
-    const {id} = req.params;
-    const listing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    res.redirect(`/listings/${listing._id}`);
+//update route
+app.put("/listings/:id", async (req, res) => {
+    const { id } = req.params;
+    let listingData = req.body.listing;
+
+    // **This is the fix**: Check if a new image URL string was provided
+    if (listingData.image) {
+        // If yes, convert it back into the object format before updating
+        listingData.image = { url: listingData.image, filename: "listingimage" };
+    } else {
+        // If the image field was left blank, remove it from the update data
+        // to prevent it from overwriting the existing image with nothing.
+        delete listingData.image;
+    }
+
+    await Listing.findByIdAndUpdate(id, listingData);
+    res.redirect(`/listings/${id}`);
 });
 
 //delete route
