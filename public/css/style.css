@@ -5,12 +5,16 @@ body{
 
 .container{
     flex: 1;
+    
 }
 
 /* Navbar */
 .navbar{
     height: 4rem;
     background-color: aliceblue;
+    
+    
+    
 }
 
 .fa-location-arrow{

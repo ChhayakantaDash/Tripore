@@ -5,6 +5,8 @@ const Listing = require("./models/listing.js");
 const path = require("path"); 
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync");
+const ExpressError = require("./utils/ExpressError");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
@@ -22,18 +24,21 @@ async function main() {
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+
+
 
 app.get("/",(req,res) =>{
     res.send("Hi, i am root");
 });
 //index route
-app.get("/listings", async (req,res) =>{
+app.get("/listings", wrapAsync(async (req,res) =>{
     const allListing= await Listing.find({});
     res.render("listings/index",{allListing});
-});
+}));
 
 //New route
 app.get("/listings/new", (req,res) =>{
@@ -41,16 +46,20 @@ app.get("/listings/new", (req,res) =>{
 });
 
 //show route
-app.get("/listings/:id", async (req,res) =>{
+app.get("/listings/:id", wrapAsync(async (req,res) =>{
     const {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/show",{listing});
-});
+}));
 
 //create route
-//create route
-app.post("/listings", async (req, res) => {
-    // Manually construct the new listing object
+
+app.post("/listings", wrapAsync(async(req, res,next) => {
+     if (!req.body.listing || Object.keys(req.body.listing).length === 0) {
+        throw new ExpressError(400, "Invalid Listing Data: Please send listing details.");
+    }
+    
+        // Manually construct the new listing object
     const newListing = new Listing(req.body.listing);
 
     // If no image URL is provided, use a default one
@@ -67,19 +76,24 @@ app.post("/listings", async (req, res) => {
     
     await newListing.save();
     res.redirect("/listings");
-});
+
+    
+}));
 
 
 //edit route
-app.get("/listings/:id/edit", async (req,res) =>{
+app.get("/listings/:id/edit", wrapAsync(async (req,res) =>{
     const {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/edit",{listing});
-});
+}));
 
 //update route
 //update route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
+    if (!req.body.listing || Object.keys(req.body.listing).length === 0) {
+        throw new ExpressError(400, "Invalid Listing Data: Please send listing details.");
+    }
     const { id } = req.params;
     let listingData = req.body.listing;
 
@@ -95,15 +109,15 @@ app.put("/listings/:id", async (req, res) => {
 
     await Listing.findByIdAndUpdate(id, listingData);
     res.redirect(`/listings/${id}`);
-});
+}));
 
 //delete route
-app.delete("/listings/:id", async (req,res) =>{
+app.delete("/listings/:id", wrapAsync(async (req,res) =>{
     const {id} = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect("/listings");
-});
+}));
 
 
 
@@ -122,6 +136,16 @@ app.delete("/listings/:id", async (req,res) =>{
 //     console.log("sample was saved");
 //     res.send("successful testing");
 // });
+
+
+app.use ((err,req,res,next) =>{
+     let { statusCode = 500, message = "Oh No, Something Went Wrong!" } = err;
+      res.status(statusCode).render("error.ejs", { message });
+      //res.status(statusCode).send(err.message); 
+
+});
+
+
 
 
 app.listen(8080, () =>{
