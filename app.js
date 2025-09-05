@@ -140,7 +140,7 @@ app.delete("/listings/:id", wrapAsync(async (req,res) =>{
 
 app.use ((err,req,res,next) =>{
      let { statusCode = 500, message = "Oh No, Something Went Wrong!" } = err;
-      res.status(statusCode).render("error.ejs", { message });
+      res.status(statusCode).render("error.ejs", {message, stickyFooter: true  });
       //res.status(statusCode).send(err.message); 
 
 });
