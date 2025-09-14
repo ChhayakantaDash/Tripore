@@ -9,6 +9,8 @@ const wrapAsync = require("./utils/wrapAsync");
 const ExpressError = require("./utils/ExpressError");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+const { listingSchema } = require("./schema.js");
+
 
 main()
     .then(() =>{
@@ -34,6 +36,21 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.get("/",(req,res) =>{
     res.send("Hi, i am root");
 });
+
+const validateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+        
+        if (error) {
+            let errMsg = error.details.map(el => el.message).join(',');
+            throw new ExpressError(400, errMsg);
+        } else{
+            next();
+        }
+
+};
+
+
+
 //index route
 app.get("/listings", wrapAsync(async (req,res) =>{
     const allListing= await Listing.find({});
@@ -54,13 +71,14 @@ app.get("/listings/:id", wrapAsync(async (req,res) =>{
 
 //create route
 
-app.post("/listings", wrapAsync(async(req, res,next) => {
+app.post("/listings",validateListing, wrapAsync(async(req, res,next) => {
      if (!req.body.listing || Object.keys(req.body.listing).length === 0) {
         throw new ExpressError(400, "Invalid Listing Data: Please send listing details.");
     }
     
         // Manually construct the new listing object
     const newListing = new Listing(req.body.listing);
+
 
     // If no image URL is provided, use a default one
     let url = req.body.listing.image;
@@ -89,11 +107,9 @@ app.get("/listings/:id/edit", wrapAsync(async (req,res) =>{
 }));
 
 //update route
-//update route
-app.put("/listings/:id", wrapAsync(async (req, res) => {
-    if (!req.body.listing || Object.keys(req.body.listing).length === 0) {
-        throw new ExpressError(400, "Invalid Listing Data: Please send listing details.");
-    }
+
+app.put("/listings/:id",validateListing, wrapAsync(async (req, res) => {
+    
     const { id } = req.params;
     let listingData = req.body.listing;
 
