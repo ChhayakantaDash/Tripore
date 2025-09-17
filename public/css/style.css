@@ -73,7 +73,7 @@ body{
 }
 
 /* cards */
-.card{
+.listing-card{
     margin-bottom: 2rem;
     border: none !important;
 }
@@ -118,4 +118,8 @@ body{
     width: 100% !important;
     object-fit: cover !important;
     height: 20rem !important;
+}
+
+.left-align-section {
+    text-align: left;
 }
