@@ -10,7 +10,6 @@ const listingSchema = Joi.object({
         country: Joi.string().required(),
     }).required(),
 });
-module.exports = { listingSchema };
 
 //reviews schema
 const reviewSchema = Joi.object({
@@ -19,4 +18,6 @@ const reviewSchema = Joi.object({
         rating: Joi.number().required().min(1).max(5),
     }).required(),
 });
-module.exports = { reviewSchema };
+
+// Export both schemas together
+module.exports = { listingSchema, reviewSchema };
