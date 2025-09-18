@@ -8,6 +8,8 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js"); 
 const ExpressError = require("./utils/ExpressError");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 
 
@@ -32,6 +34,14 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.use("/listings", listings);
 app.use("/listings/:id/reviews",reviews);
 
+
+const sessionOptions = {
+    secret: "thisshouldbeabettersecret!",
+    resave: false,
+    saveUninitialized: true,
+};
+
+app.use(session(sessionOptions));
 
 app.get("/",(req,res) =>{
     res.send("Hi, i am root");

@@ -75,6 +75,13 @@ body{
 /* cards */
 .listing-card{
     margin-bottom: 2rem;
+    border-radius: 1rem !important;
+    border: none !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.listing-card,
+.listing-card * {
     border: none !important;
 }
 
@@ -87,6 +94,7 @@ body{
 .card-body{
     text-align: center;
     padding: 0% !important;
+    
 }
 
 .card-text{
@@ -95,12 +103,14 @@ body{
 
 .listing-link{
     text-decoration: none;
+    
 }
 
 /* card effect */
 .card-img-overlay{
     opacity: 0;
     transition: opacity 0.15s ease-in-out;
+   
 }
 .card-img-overlay:hover{
     opacity: 0.2;
