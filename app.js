@@ -31,21 +31,37 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
-app.use("/listings", listings);
-app.use("/listings/:id/reviews",reviews);
+
 
 
 const sessionOptions = {
     secret: "thisshouldbeabettersecret!",
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
 };
-
-app.use(session(sessionOptions));
 
 app.get("/",(req,res) =>{
     res.send("Hi, i am root");
 });
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+
+app.use((req,res,next) =>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+
+app.use("/listings", listings);
+app.use("/listings/:id/reviews",reviews);
 
 app.use ((err,req,res,next) =>{
      let { statusCode = 500, message = "Oh No, Something Went Wrong!" } = err;
