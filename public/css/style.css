@@ -41,7 +41,7 @@ body{
 }
 
 footer.fixed-footer {
-    position: auto;
+  position: auto;
   
   bottom: 0;
   left: 0;
@@ -53,10 +53,6 @@ footer.fixed-footer {
   z-index: 1030; /* keep above other content */
   
 }
-
-
-
-
 .f-info-links,
 .f-info-socials,
 .f-info-brand{
