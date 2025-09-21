@@ -1,12 +1,16 @@
 body{
     flex-direction: column;
     min-height: 100vh;
+    padding-bottom: 100px;
+    display: flex;
+    height: 100%;
+    margin: 0;
+  
 }
 
-.container{
+.main{
     flex: 1;
-    
-}
+    }
 
 /* Navbar */
 .navbar{
@@ -36,13 +40,22 @@ body{
     text-decoration: underline;
 }
 
-.sticky-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 100;
+footer.fixed-footer {
+    position: auto;
+  
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa; /* light gray background */
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+  z-index: 1030; /* keep above other content */
+  
 }
+
+
+
 
 .f-info-links,
 .f-info-socials,
