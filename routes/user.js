@@ -3,6 +3,7 @@ const router = express.Router();
 const User=require("../models/user.js");
 const wrapAsync= require("../utils/wrapAsync.js");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware.js");
 
 
 
@@ -35,14 +36,18 @@ router.get("/login", (req, res) => {
     res.render("users/login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", { 
+router.post(
+    "/login",
+    saveRedirectUrl,
+    passport.authenticate("local", { 
     failureFlash: true, 
     failureRedirect: "/login" 
 }), 
-    wrapAsync(async (req, res) => {
+    async (req, res) => {
         req.flash("success", "Welcome back to Tripore! You are logged in!");
-        res.redirect("/listings");
-    }));
+        res.redirect(res.locals.redirectUrl || "/listings");
+        
+    });
 
     router.get("/logout", (req, res, next) => {
         req.logout((err) =>{

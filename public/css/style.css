@@ -101,7 +101,7 @@ footer.fixed-footer {
     height: 20rem !important;
 }
 .card-body{
-    text-align: center;
+    text-align: left;
     padding: 0% !important;
     
 }

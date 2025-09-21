@@ -4,14 +4,18 @@
         <h3><%= listing.title %></h3>
         <div class="card col-12 listing-card">
             <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
-            <div class="card-body">
-                <p class="card-text"><%= listing.description %></p>
+            <div class="card-body ms-3">
+                <p class="card-text">
+                    <i><b>Owner: </b><%= listing.owner.username %></i>
+                    <br>
+                    <%= listing.description %></p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">&#8377; <%= listing.price.toLocaleString("en-IN") %></li>
                 <li class="list-group-item"><%= listing.location %></li>
                 <li class="list-group-item"><%= listing.country %></li>
             </ul>
+            
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-auto">
@@ -23,6 +27,7 @@
                         </form>
                     </div>
                 </div>
+                
                 <!-- Review Section: left-aligned and inside the card -->
                 <div class="left-align-section ms-3 me-3">
                     <hr>
