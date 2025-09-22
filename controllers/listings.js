@@ -35,7 +35,9 @@ module.exports.createListing = async (req, res) => {
         // Manually construct the new listing object
         const newListing = new Listing(req.body.listing);
         // If no image URL is provided, use a default one
-        let url = req.body.listing.image;
+        let url = req.file.path;
+        let filename = req.file.filename;
+
         if (!url) {
             url = "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWxzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60";
         }
@@ -43,7 +45,7 @@ module.exports.createListing = async (req, res) => {
         // **This is the fix**: Set the image field to be an object
         newListing.image = {
             url: url,
-            filename: "listingimage"
+            filename: filename
         };
         newListing.owner = req.user._id;
         
