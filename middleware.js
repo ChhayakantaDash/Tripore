@@ -28,7 +28,7 @@ module.exports.isOwner =  async (req, res, next) => {
             return res.redirect(`/listings/${id}`);
         }
         next();
-    };
+};
 
 module.exports.validateListing = (req, res, next) => {
     let {error} = listingSchema.validate(req.body);
@@ -40,7 +40,7 @@ module.exports.validateListing = (req, res, next) => {
                 next();
         }
     
-    };
+};
 
 module.exports.validateReview = (req, res, next) => {
 
@@ -53,7 +53,7 @@ module.exports.validateReview = (req, res, next) => {
                 next();
             }
     
-        };
+};
 
 module.exports.isReviewAuthor =  async (req, res, next) => {
     let { id,reviewId } = req.params;
@@ -63,4 +63,4 @@ module.exports.isReviewAuthor =  async (req, res, next) => {
             return res.redirect(`/listings/${id}`);
         }
         next();
-    };
+};
