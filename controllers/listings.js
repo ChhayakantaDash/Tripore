@@ -75,8 +75,16 @@ module.exports.updateListing = async (req, res) => {
           
             delete listingData.image;
         }
-    
-        await Listing.findByIdAndUpdate(id, listingData);
+        
+        let listing = await Listing.findByIdAndUpdate(id, listingData);
+        if(typeof req.file !=="undefined"){
+            let url = req.file.path;
+            let filename = req.file.filename;
+            listing.image={url,filename};
+            await listing.save();
+        }
+
+
         req.flash("success", "Successfully updated listing!");
         res.redirect(`/listings/${id}`);
     };
