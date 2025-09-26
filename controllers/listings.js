@@ -1,8 +1,24 @@
 const Listing = require("../models/listing.js");
 module.exports.index = async (req, res) => {
-    //index route
-    const allListing= await Listing.find({});
-    res.render("listings/index.ejs",{allListing});
+    // index route with optional search
+    const { q } = req.query;
+
+    let filter = {};
+    if (q && q.trim().length > 0) {
+        const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const rx = new RegExp(escaped, "i");
+        filter = {
+            $or: [
+                { title: rx },
+                { location: rx },
+                { country: rx },
+                { description: rx },
+            ],
+        };
+    }
+
+    const allListing = await Listing.find(filter);
+    res.render("listings/index.ejs", { allListing, q: q || "" });
 };
 
 module.exports.renderNewForm = (req, res) => {

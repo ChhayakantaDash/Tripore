@@ -1,3 +1,26 @@
+<style>
+  .btn-search {
+    background-color: #ff385c;
+    color: white;
+    border-radius: 25px;
+    padding: 0 1rem 0 1rem;
+    border: none;
+  }
+  .btn-search:hover {
+    background-color: #e31c5f;
+    color: white;
+  }
+  .btn-search i{
+    display: inline;
+    margin-right: 5px;
+  }
+  .search-input{
+    border-radius: 25px;
+    width: 20rem;
+  }
+</style>
+
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="/listings"><i class="fa-solid fa-location-arrow"></i></a>
@@ -14,9 +37,14 @@
         <a class="nav-link" href="/listings"><b>Explore</b></a>
         
       </div>
+      <div class="navbar-nav ms-auto" >
+        <form class="d-flex" role="search" action="/listings" method="get">
+        <input class="form-control me-2 search-input" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>" type="search" placeholder="Search destinations" />
+        <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+      </form>
+      </div>
       <div class="navbar-nav ms-auto">
-        
-        <a class="nav-link" href="/listings/new">Tripore your home</a>
+        <a class="nav-link" href="/listings/new">Add to Tripore</a>
         <% if (!currUser) { %>
           
         <a class="nav-link" href="/signup"><b>Sign Up</b></a>
