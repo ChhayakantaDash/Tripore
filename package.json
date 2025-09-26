@@ -1,7 +1,6 @@
 {
-  "engines":{
-    "node":"v22.13.1"
-
+  "engines": {
+    "node": "v22.13.1"
   },
   "name": "wonderlust",
   "version": "1.0.0",
@@ -10,7 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cloudinary": "^2.7.0",
+    "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
