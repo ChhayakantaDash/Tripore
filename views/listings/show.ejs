@@ -35,8 +35,9 @@
                 
                 <!-- Review Section: left-aligned and inside the card -->
                 <div class="left-align-section ms-3 me-3">
-                    <hr>
+                    
                     <% if(currUser){ %>
+                        <hr/>
                     <h4>Leave a Review</h4>
                     <form 
                     action="/listings/<%= listing.id %>/reviews" 
@@ -78,8 +79,9 @@
                     </form>
                     <% } %>
                     <hr/>
-                    <p><b>All Reviews</b></p>
+                    <% if(listing.reviews.length > 0){ %>
                     <div class="row">
+                        <p><b>All Reviews</b></p>
                         <% for(review of listing.reviews){ %>
                             <div class="card col-5 ms-3 mb-3">
                                 <div class="left-align-section">
@@ -96,8 +98,84 @@
                             </div>
                         <% } %>
                     </div>
+                    <% } %>
                 </div>
+                <div class="col-8 offset-2 mt-3 ms-3">
+                        <h3>Where you'll be</h3>
+                        <div id ="map"></div>
+                </div>
+                <br/>
             </div>
+            
         </div>
     </div>
 </div>
+
+<script>
+    const radiusCenter = [85.8246, 20.2960];
+    const map = new maplibregl.Map({
+        container: 'map',
+        zoom: 13,
+        center: radiusCenter,
+        style: {
+            version: 8,
+            sources: {
+                osm: {
+                    type: 'raster',
+                    tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                    tileSize: 256,
+                    attribution: '&copy; OpenStreetMap Contributors',
+                    maxzoom: 19
+                }
+            },
+            layers: [
+                {
+                    id: 'osm',
+                    type: 'raster',
+                    source: 'osm'
+                }
+            ]
+        },
+        maxZoom: 18,
+        maxPitch: 85
+    });
+
+    map.on('load', () => {
+        // Generate a polygon using turf.circle
+        // See https://turfjs.org/docs/#circle
+        const radius = 1; // kilometer
+        const options = {
+            steps: 64,
+            units: 'kilometers'
+        };
+        const circle = turf.circle(radiusCenter, radius, options);
+
+        // Add the circle as a GeoJSON source
+        map.addSource('location-radius', {
+            type: 'geojson',
+            data: circle
+        });
+
+        // Add a fill layer with some transparency
+        map.addLayer({
+            id: 'location-radius',
+            type: 'fill',
+            source: 'location-radius',
+            paint: {
+                'fill-color': '#8CCFFF',
+                'fill-opacity': 0.5
+            }
+        });
+
+        // Add a line layer to draw the circle outline
+        map.addLayer({
+            id: 'location-radius-outline',
+            type: 'line',
+            source: 'location-radius',
+            paint: {
+                'line-color': '#0094ff',
+                'line-width': 3
+            }
+        });
+    });
+</script>

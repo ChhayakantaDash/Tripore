@@ -142,3 +142,10 @@ footer.fixed-footer {
 .left-align-section {
     text-align: left;
 }
+
+#map { 
+    height: 400px;
+    width: 109vh;
+
+}
+    
