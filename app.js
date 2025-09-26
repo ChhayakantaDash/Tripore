@@ -87,6 +87,11 @@ app.use((req,res,next) =>{
     next();
 });
 
+// Root route - redirect to listings
+app.get("/", (req, res) => {
+    return res.redirect("/listings");
+});
+
 // app.get("/demouser", async (req,res) =>{
 //     let fakeUser = new User({
 //         username: "manish",
@@ -108,6 +113,7 @@ app.use ((err,req,res,next) =>{
 
 });
 
-app.listen(8080, () =>{
-    console.log("server is listening to port 8080");
+const port = process.env.PORT || 8080;
+app.listen(port, () =>{
+    console.log(`server is listening on port ${port}`);
 });
