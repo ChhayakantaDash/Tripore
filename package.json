@@ -1,4 +1,8 @@
 {
+  "engines":{
+    "node":"v22.13.1"
+
+  },
   "name": "wonderlust",
   "version": "1.0.0",
   "main": "index.js",
