@@ -89,7 +89,7 @@ app.use((req,res,next) =>{
 
 // Root route - redirect to listings
 app.get("/", (req, res) => {
-    return res.redirect("/listings");
+    res.redirect("/listings");
 });
 
 // app.get("/demouser", async (req,res) =>{

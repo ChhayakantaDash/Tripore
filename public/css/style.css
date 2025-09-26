@@ -149,3 +149,50 @@ footer.fixed-footer {
 
 }
     
+/* Responsive: tablets */
+@media (max-width: 768px) {
+    .navbar{
+        height: 3.5rem;
+    }
+    .card-img-top{
+        height: 16rem !important;
+    }
+    .show-img{
+        height: 16rem !important;
+    }
+    #map{
+        width: 100%;
+        height: 320px;
+    }
+}
+
+/* Responsive: phones */
+@media (max-width: 576px) {
+    body{
+        padding-bottom: 120px;
+    }
+    .fa-location-arrow{
+        font-size: 1.5rem;
+    }
+    .f-info{
+        height: auto;
+        padding: 1rem 0.5rem;
+    }
+    .f-info-socials i{
+        margin-right: 0.5rem;
+    }
+    .card-img-top{
+        height: 12rem !important;
+    }
+    .show-img{
+        height: 12rem !important;
+    }
+    .card-body{
+        padding: 0.5rem !important;
+    }
+    #map{
+        width: 100%;
+        height: 280px;
+    }
+}
+    
