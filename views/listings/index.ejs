@@ -1,9 +1,122 @@
 <% layout("/layouts/boilerplate") %>
 
 
-<h3>All Listings</h3>
+<!-- <h3>All Listings</h3> -->
+ <style>
+ /* --- SCROLLING AND LAYOUT --- */
+#filters {
+    display: flex;       /* Lays out the items side-by-side */
+    /* This line is the key to enabling horizontal scrolling: */
+    overflow-x: auto;    
+    padding: 10px 0;     /* Add vertical space */
+    gap: 25px;           /* Space between filter items */
+    
+    /* These lines are the key to hiding the scrollbar visually: */
+    -ms-overflow-style: none;  /* Hides the scrollbar in Internet Explorer and Edge */
+    scrollbar-width: none;     /* Hides the scrollbar in Firefox */
+}
 
-<div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-4">
+/* This is the key section for hiding the scrollbar in Chrome, Safari, and newer Edge: */
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- FILTER BOX STYLING (For the square frame look) --- */
+.filters {
+    flex-shrink: 0;      /* Crucial: Prevents items from shrinking and wrapping */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 5px;   
+}
+
+.filters div {
+    width: 50px;         /* Fixed width for square frame */
+    height: 50px;        /* Fixed height for square frame */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.filters i {
+    font-size: 1.25rem;
+    color: #444;
+}
+
+.filters p {
+    font-size: 0.8rem;
+    color: #555;
+    margin: 0;
+}
+.tax-toggle {
+    flex-shrink: 0;      /* Prevents the toggle from shrinking */
+    display: flex;
+    align-items: center;
+    margin-left: auto;   /* Pushes the toggle to the far right */
+    padding-right: 10px; /* Adds some right padding */
+}
+#tax-info{
+    display: none;
+}
+ </style>
+<div id="filters">
+    <div class="filters">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+    </div>
+    <div class="filters">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-mountain-sun"></i></div>
+        <p>Amazing Views</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-house-chimney"></i></div>
+        <p>Tiny Homes</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Beachfront</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-gem"></i></div>
+        <p>Luxe</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-tractor"></i></div>
+        <p>Farms</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-tent"></i></div>
+        <p>Camping</p>
+    </div>
+
+    <div class="filters">
+        <div><i class="fa-solid fa-star"></i></div>
+        <p>Unique Stays</p>
+    </div>
+
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">Display total after Taxes</label>
+        </div>
+    </div>
+ 
+</div>
+<div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-4 mt-3">
     <% for (let listing of allListing){ %>
         <a href="/listings/<%= listing._id %>" class="listing-link">
             <div class="card col listing-card">
@@ -18,6 +131,7 @@
                     <p class="card-text">
                         <b><%= listing.title %></b> <br/>
                         &#8377;<%= listing.price.toLocaleString("en-IN") %> / night
+                        <i id="tax-info"> + &nbsp;18% GST</i>
                     </p>
                 </div>
             </div>
@@ -25,4 +139,9 @@
     <% } %>
 </div>
         </a>
-        
+
+
+<script>
+    let taxSwitch = document.getElementById('switchCheckDefault');
+    taxSwitch.addEventListener('click', () => {
+</script>        
